@@ -35,7 +35,11 @@
 
         $profileInfo = json_decode(file_get_contents("https://api.twitch.tv/kraken/user?oauth_token=" . $result->access_token));
         $app = new App(AppConfig::getDatabaseConnection());
-        $_SESSION['user'] = $app->registerThroughTwitch($profileInfo);
+        $user = $app->registerThroughTwitch($profileInfo);
+        if ($user['account_source'] == "l") {
+            die("There is already a locally registered account using this email address. Log in through that.");
+        }
+        $_SESSION['user'] = $user;
         header('Location: home.php');
     }
 ?>
