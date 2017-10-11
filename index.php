@@ -2,6 +2,7 @@
     session_start();
     require 'AppConfig.php';
     require 'App.php';
+    require 'AppLang.php';
 
     if (isset($_SESSION['user'])) { //Already logged in
         header('Location: home.php');
@@ -41,11 +42,42 @@
         }
         $_SESSION['user'] = $user;
         header('Location: home.php');
+    } else if (isset($_POST['email']) && isset($_POST['password'])) {
+        $email = trim($_POST['email']);
+        $pass = trim($_POST['password']);
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            header('Location: index.php?e=1');
+            die(0);
+        }
+
+        if (empty($email) || empty($pass)) {
+            header('Location: index.php?e=2');
+            die(0);
+        }
+
+        $app = new App(AppConfig::getDatabaseConnection());
+        $user = $app->getUserFromEmail($email);
+
+        if ($user == null) {
+            header('Location: index.php?e=3');
+            die(0);
+        }
+
+        $salted_pass = md5( md5($user['salt']) . md5($pass) );
+        if ($salted_pass==$user['password']) {
+            $_SESSION['user'] = $user;
+            header('Location: home.php');
+        } else {
+            header('Location: index.php?e=3');
+            die(0);
+        }
+
     }
 ?>
 <html>
     <head>
-        <title>Login to AidanHub</title>
+        <title>Log In to AidanHub</title>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <style>
@@ -57,6 +89,23 @@
     <body>
         <img class="login_button" id="tlogin" src="https://i.imgur.com/vL4sjXo.png" />
         <a href="register.php">Register</a>
+
+        <p><?php if (isset($_GET['e'])) echo AppLang::getLoginErrorFromCode($_GET['e']); ?></p>
+        <form id="login" action="index.php" method="post">
+            <table id="login_table">
+                <tr>
+                    <td><label for="email">Email</label></td>
+                    <td><input type="text" id="email" name="email" /></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password</label></td>
+                    <td><input type="password" id="password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Log In" /></td>
+                </tr>
+            </table>
+        </form>
 
         <script>
             $(".login_button").click(function() {

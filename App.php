@@ -77,7 +77,7 @@ class App {
                 mysqli_real_escape_string($this->dbconnect, 0), //uid
                 mysqli_real_escape_string($this->dbconnect, $username), //username
                 mysqli_real_escape_string($this->dbconnect, $pass), //password
-                mysqli_real_escape_string($this->dbconnect, $this->getUniqueSalt()), //salt
+                mysqli_real_escape_string($this->dbconnect, $salt), //salt
                 mysqli_real_escape_string($this->dbconnect, $email), //email
                 mysqli_real_escape_string($this->dbconnect, $timestamp), //first seen
                 mysqli_real_escape_string($this->dbconnect, $timestamp), //last seen

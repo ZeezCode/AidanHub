@@ -14,7 +14,7 @@
         $user = trim($_POST['username']);
         $pass = trim($_POST['password']);
         $pass2 = trim($_POST['password2']);
-        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             header('Location: register.php?e=1');
             die(0);
         }
@@ -47,7 +47,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
-        <p><?php if (isset($_GET['e'])) echo AppLang::getLoginErrorFromCode($_GET['e']); ?></p>
+        <p><?php if (isset($_GET['e'])) echo AppLang::getRegisterErrorFromCode($_GET['e']); ?></p>
         <form id="register" action="register.php" method="post">
                 <table id="register_table">
                 <tr>
