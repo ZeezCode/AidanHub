@@ -80,6 +80,10 @@
         <title>Log In to AidanHub</title>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" >
+        <link rel="stylesheet" type="text/css" href="css/index.css?<?php echo date('l jS \of F Y h:i:s A'); ?>" >
+
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <style>
             .login_button {
                 cursor: pointer;
@@ -87,26 +91,32 @@
         </style>
     </head>
     <body>
-        <img class="login_button" id="tlogin" src="https://i.imgur.com/vL4sjXo.png" />
-        <a href="register.php">Register</a>
-
-        <p><?php if (isset($_GET['e'])) echo AppLang::getLoginErrorFromCode($_GET['e']); ?></p>
-        <form id="login" action="index.php" method="post">
-            <table id="login_table">
-                <tr>
-                    <td><label for="email">Email</label></td>
-                    <td><input type="text" id="email" name="email" /></td>
-                </tr>
-                <tr>
-                    <td><label for="password">Password</label></td>
-                    <td><input type="password" id="password" name="password" /></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" value="Log In" /></td>
-                </tr>
-            </table>
-        </form>
-
+        <script>
+            $(".login_button").click(function() {
+                window.location.href = "index.php?" + $(this).attr('id');
+            });
+        </script>
+        <div id="login_block">
+            <h2 id="login_logo">AidanHub</h2>
+            <span id="login_error"><?php if (isset($_GET['e'])) echo AppLang::getLoginErrorFromCode($_GET['e']); ?></span>
+            <form id="login" action="index.php" method="post">
+                <table id="login_table">
+                    <tr>
+                        <td colspan="2"><input type="text" id="email" name="email" required placeholder="Email" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="password" id="password" name="password" required placeholder="Password" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Log In" /></td>
+                        <td><img class="login_button" id="tlogin" src="https://i.imgur.com/vL4sjXo.png" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span id="login_bottom_links"><a href="#">Forgot Password</a> | <a href="register.php">Register</a></span></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
         <script>
             $(".login_button").click(function() {
                 window.location.href = "index.php?" + $(this).attr('id');
