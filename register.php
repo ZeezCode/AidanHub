@@ -126,7 +126,7 @@
                     dataType: 'text',
                     success: function(data) {
                         if (data==="0")
-                            email.notify("This email is not taken!", "success");
+                            email.notify("This email is available!", "success");
                         else
                             email.notify("This email is already being used!", "error");
                     }
