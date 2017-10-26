@@ -28,14 +28,20 @@ body {
 #login_table {
     height: 60%;
     width: 100%;
-    margin: 0 auto;
+    margin: 15% auto;
 }
 
 td, tr {
     text-align: center;
+    vertical-align: middle;
     width: 100%;
     padding: 0;
     margin: 0;
+}
+
+td input[type="submit"], td img {
+    vertical-align: middle;
+    display: inline-block;
 }
 
 input[type="text"], input[type="password"] {

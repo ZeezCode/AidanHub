@@ -102,17 +102,16 @@
             <form id="login" action="index.php" method="post">
                 <table id="login_table">
                     <tr>
-                        <td colspan="2"><input type="text" id="email" name="email" required placeholder="Email" /></td>
+                        <td><input type="text" id="email" name="email" required placeholder="Email" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="password" id="password" name="password" required placeholder="Password" /></td>
+                        <td><input type="password" id="password" name="password" required placeholder="Password" /></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" value="Log In" /></td>
-                        <td><img class="login_button" id="tlogin" src="https://i.imgur.com/vL4sjXo.png" /></td>
+                        <td><input type="submit" value="Log In" /> or <img class="login_button" id="tlogin" src="https://i.imgur.com/vL4sjXo.png" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><span id="login_bottom_links"><a href="#">Forgot Password</a> | <a href="register.php">Register</a></span></td>
+                        <td><span id="login_bottom_links"><a href="#">Forgot Password</a> | <a href="register.php">Register</a></span></td>
                     </tr>
                 </table>
             </form>
