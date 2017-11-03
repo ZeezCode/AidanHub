@@ -37,6 +37,14 @@ class App {
         return (mysqli_num_rows($getUserQuery) > 0);
     }
 
+    function imageHasID($iid) {
+        $getImageSQL = sprintf("SELECT iid FROM images WHERE iid = '%s';",
+            mysqli_real_escape_string($this->dbconnect, $iid));
+        $getImageQuery = mysqli_query($this->dbconnect, $getImageSQL);
+
+        return (mysqli_num_rows($getImageQuery) > 0);
+    }
+
     function registerThroughTwitch($profile) {
         $user = $this->getUserFromEmail($profile->email);
         if ($user != null) {
@@ -109,6 +117,51 @@ class App {
             $salt = $this->generateRandomString($length);
         }
         return $salt;
+    }
+
+    function getUniqueImageID($length = 8) {
+        $iid = $this->generateRandomString($length);
+        while ($this->imageHasID($iid)) {
+            $iid = $this->generateRandomString($length);
+        }
+        return $iid;
+    }
+
+    function registerImageUpload($iid, $title, $description, $private) {
+        $db = $this->dbconnect;
+        $registerImageSQL = sprintf("INSERT INTO images VALUES ('%s', %d, '%s', '%s', %d, %d, %d, %d, '%s');",
+            mysqli_real_escape_string($db, $iid), //Image ID
+            mysqli_real_escape_string($db, $_SESSION['user']['uid']), //User ID
+            mysqli_real_escape_string($db, $title), //Title
+            mysqli_real_escape_string($db, $description), //Description
+            mysqli_real_escape_string($db, 0), //Upvotes
+            mysqli_real_escape_string($db, 0), //Downvotes
+            mysqli_real_escape_string($db, $private), //Private
+            mysqli_real_escape_string($db, time()), //Timestamp
+            mysqli_real_escape_string($db, $_SERVER['REMOTE_ADDR'])); //IP
+        mysqli_query($db, $registerImageSQL);
+    }
+
+    function getUserPoints($user) {
+        $db = $this->dbconnect;
+        $getScoreSQL = sprintf("SELECT SUM(upvotes) AS points FROM images WHERE uid = %d;",
+            mysqli_real_escape_string($db, $user['uid']));
+        $getScoreQuery = mysqli_query($db, $getScoreSQL);
+        if (mysqli_num_rows($getScoreQuery) > 0) {
+            return mysqli_fetch_assoc($getScoreQuery)['points'];
+        }
+        return 0;
+    }
+
+    function getUserPosts($user) {
+        $db = $this->dbconnect;
+        $getScoreSQL = sprintf("SELECT COUNT(*) AS posts FROM images WHERE uid = %d;",
+            mysqli_real_escape_string($db, $user['uid']));
+        $getScoreQuery = mysqli_query($db, $getScoreSQL);
+        if (mysqli_num_rows($getScoreQuery) > 0) {
+            return mysqli_fetch_assoc($getScoreQuery)['posts'];
+        }
+        return 0;
     }
 
 }

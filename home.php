@@ -2,6 +2,7 @@
     session_start();
     require 'AppConfig.php';
     require 'App.php';
+    require 'Image.php';
 
     if (!isset($_SESSION['user'])) { //Not logged in
         header('Location: index.php');
@@ -19,15 +20,36 @@
     </head>
     <body>
         <div id="header">
-            <span id="header_links"><a href="#">Home</a> | <a href="upload.php">Upload</a> | <a href="profile.php">My Profile</a> | <a href="reset.php">Log Out</a></span>
+            <span id="header_links"><a href="home.php">Home</a> | <a href="upload.php">Upload</a> | <a href="profile.php">My Profile</a> | <a href="reset.php">Log Out</a></span>
         </div>
         <div id="content">
             <div class="gallery">
                 <a target="_blank" href="https://i.imgur.com/hXFeHXW.jpg">
                     <img src="https://i.imgur.com/hXFeHXW.jpg" alt="Fjords" width="300" height="200">
                 </a>
-                <div class="desc">Cute doggo</div>
+                <div class="title">Cute doggo</div>
             </div>
+
+            <?php
+                $db = AppConfig::getDatabaseConnection();
+                $getLatestSQL = "SELECT iid, title FROM images ORDER BY timestamp DESC LIMIT 15;";
+                $getLatestQuery = mysqli_query($db, $getLatestSQL);
+                if (mysqli_num_rows($getLatestQuery) == 0) {
+                    echo "<span>It seems there aren't any posts yet...</span>";
+                } else {
+                    while ($img = mysqli_fetch_assoc($getLatestQuery)) {
+                        $image = new Image($img);
+                        ?>
+                        <div class="gallery">
+                            <a href="<?php echo $image->getPostURL(); ?>">
+                                <img src="<?php echo $image->getDirectURL(); ?>" width="300" height="200">
+                            </a>
+                            <div class="title"><?php echo $image->getTitle(); ?></div>
+                        </div>
+                        <?php
+                    }
+                }
+            ?>
         </div>
     </body>
 </html>

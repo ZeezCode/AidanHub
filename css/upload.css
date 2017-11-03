@@ -1,0 +1,87 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#header {
+    background-color: #6C3295;
+    vertical-align: middle;
+    text-align: center;
+    display: table;
+    width: 100%;
+    height: 10%;
+}
+
+#header_links {
+    vertical-align:middle;
+    display:table-cell;
+    font-size: 48px;
+    color: #ffffff;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#content {
+    background-color: #dfdfdf;
+    overflow: auto;
+    width: 100%;
+    height: 90%;
+}
+
+#upload_block {
+    background-color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+    width: 90%;
+    height: 100%;
+}
+
+#upload_form {
+    width: 50%;
+    margin: auto;
+}
+
+#upload_table {
+    border-collapse:separate;
+    border-spacing:1em;
+    margin: auto;
+    width: 1%;
+}
+
+input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+label {
+    cursor: pointer;
+    color: #6C3295;
+    font-size: 24px;
+    border: 1px solid #6C3295;
+}
+
+input[type="text"] {
+    width: 95%;
+    -webkit-appearance: button;
+    height: 75%;
+    text-indent: 10px;
+
+    border: none;
+    border-bottom: 2px solid #6C3295;
+}
+
+textarea {
+    border: 1px solid #6C3295;
+    outline: none;
+}
+
+img {
+    width: 150px;
+    height: auto;
+}
