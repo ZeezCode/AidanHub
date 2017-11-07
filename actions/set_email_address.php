@@ -6,33 +6,37 @@
         $result = array();
         $result['status'] = 0;
 
-        if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
+        if ($_SESSION['user']['account_source'] == 't') {
             $result['status'] = 1;
-            $result['error'] = "Invalid email address!";
+            $result['error'] = "Accounts registered through Twitch can not change their email address.";
         } else {
-            $db = AppConfig::getDatabaseConnection();
-            $app = new App($db);
-            if ($app->getUserFromEmail($_GET['email']) != null) {
+            if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) {
                 $result['status'] = 1;
-                $result['error'] = "A user already exists with this email address!";
+                $result['error'] = "Invalid email address!";
             } else {
-                $resetStatement = sprintf("DELETE FROM email_confirmation WHERE uid = %d;",
-                    mysqli_real_escape_string($db, $_SESSION['user']['uid']));
-                mysqli_query($db, $resetStatement);
-
-                $verifyToken = $app->generateRandomString(32);
-                $createStatement = sprintf("INSERT INTO email_confirmation VALUES ('%s', %d, '%s');",
-                    mysqli_real_escape_string($db, $verifyToken),
-                    mysqli_real_escape_string($db, $_SESSION['user']['uid']),
-                    mysqli_real_escape_string($db, $_GET['email']));
-
-                if (!mysqli_query($db, $createStatement)) {
+                $db = AppConfig::getDatabaseConnection();
+                $app = new App($db);
+                if ($app->getUserFromEmail($_GET['email']) != null) {
                     $result['status'] = 1;
-                    $result['error'] = "An error occurred while attempting to save your new email address!";
+                    $result['error'] = "A user already exists with this email address!";
                 } else {
-                    $to = $_GET['email'];
-                    $subject = "AidanHub - Confirm Email Change";
-                    $message = "
+                    $resetStatement = sprintf("DELETE FROM email_confirmation WHERE uid = %d;",
+                        mysqli_real_escape_string($db, $_SESSION['user']['uid']));
+                    mysqli_query($db, $resetStatement);
+
+                    $verifyToken = $app->generateRandomString(32);
+                    $createStatement = sprintf("INSERT INTO email_confirmation VALUES ('%s', %d, '%s');",
+                        mysqli_real_escape_string($db, $verifyToken),
+                        mysqli_real_escape_string($db, $_SESSION['user']['uid']),
+                        mysqli_real_escape_string($db, $_GET['email']));
+
+                    if (!mysqli_query($db, $createStatement)) {
+                        $result['status'] = 1;
+                        $result['error'] = "An error occurred while attempting to save your new email address!";
+                    } else {
+                        $to = $_GET['email'];
+                        $subject = "AidanHub - Confirm Email Change";
+                        $message = "
                         Hello, " . $_SESSION['user']['username'] . "! <br />
                         <br />
                         You recently requested to have the email address on your account changed.<br />
@@ -44,11 +48,12 @@
                         Regards,<br />
                         AidanHub - no-reply@AidanMurphey.com<br />
                     ";
-                    $headers = 'From: no-reply@aidanmurphey.com' . "\r\n" .
-                        'Reply-To: no-reply@aidanmurphey.com' . "\r\n" .
-                        'Content-Type: text/html; charset=ISO-8859-1\r\n' .
-                        'X-Mailer: PHP/' . phpversion();
-                    mail($to, $subject, $message, $headers);
+                        $headers = 'From: no-reply@aidanmurphey.com' . "\r\n" .
+                            'Reply-To: no-reply@aidanmurphey.com' . "\r\n" .
+                            'Content-Type: text/html; charset=ISO-8859-1\r\n' .
+                            'X-Mailer: PHP/' . phpversion();
+                        mail($to, $subject, $message, $headers);
+                    }
                 }
             }
         }
