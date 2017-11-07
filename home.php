@@ -8,6 +8,10 @@
         header('Location: index.php');
         die(0);
     }
+
+    $db = AppConfig::getDatabaseConnection();
+    $app = new App($db);
+    $app->refreshUserCache();
 ?>
 <html>
     <head>
@@ -31,8 +35,7 @@
             </div>
 
             <?php
-                $db = AppConfig::getDatabaseConnection();
-                $getLatestSQL = "SELECT iid, title FROM images ORDER BY timestamp DESC LIMIT 15;";
+                $getLatestSQL = "SELECT * FROM images ORDER BY timestamp DESC LIMIT 15;";
                 $getLatestQuery = mysqli_query($db, $getLatestSQL);
                 if (mysqli_num_rows($getLatestQuery) == 0) {
                     echo "<span>It seems there aren't any posts yet...</span>";

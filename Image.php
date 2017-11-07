@@ -1,11 +1,17 @@
 <?php
-
 class Image
 {
     public $img;
 
-    function __construct($img)
-    {
+    static function getImageData($iid) {
+        $db = AppConfig::getDatabaseConnection();
+        $getImageSQL = sprintf("SELECT * FROM images WHERE iid = '%s';",
+            mysqli_real_escape_string($db, $iid));
+        $getImageQuery = mysqli_query($db, $getImageSQL);
+        return mysqli_fetch_assoc($getImageQuery);
+    }
+
+    function __construct($img) {
         $this->img = $img;
     }
 

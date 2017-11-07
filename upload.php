@@ -9,6 +9,9 @@
         die(0);
     }
 
+    $app = new App(AppConfig::getDatabaseConnection());
+    $app->refreshUserCache();
+
     if (isset($_FILES['image']['tmp_name'])) {
         $whitelist_type = array('image/jpeg', 'image/jpg', 'image/png','image/gif');
         $whitelist_ext = array('jpeg','jpg','JPEG', 'JPG','png','PNG','gif','GIF');
@@ -25,8 +28,6 @@
             echo "You've submitted a disallowed file type!";
             die(1);
         }
-
-        $app = new App(AppConfig::getDatabaseConnection());
 
         $imageID = $app->getUniqueImageID();
         $uploadDirectory = "/var/www/ahub_uploads/";

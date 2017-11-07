@@ -53,7 +53,7 @@ class App {
             $timestamp = time();
             $ip = $_SERVER['REMOTE_ADDR'];
 
-            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', NULL, NULL, '%s', %d, %d, '%s', '%s', '%s');",
+            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', NULL, NULL, '%s', %d, %d, '%s', '%s', '%s', NULL);",
                 mysqli_real_escape_string($this->dbconnect, 0), //uid
                 mysqli_real_escape_string($this->dbconnect, $profile->display_name), //username
                 mysqli_real_escape_string($this->dbconnect, $profile->email), //email
@@ -81,7 +81,7 @@ class App {
             $salt = $this->getUniqueSalt();
             $pass = md5( md5($salt) . md5($password) );
 
-            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, '%s', '%s', '%s');",
+            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, '%s', '%s', '%s', NULL);",
                 mysqli_real_escape_string($this->dbconnect, 0), //uid
                 mysqli_real_escape_string($this->dbconnect, $username), //username
                 mysqli_real_escape_string($this->dbconnect, $pass), //password
@@ -162,6 +162,20 @@ class App {
             return mysqli_fetch_assoc($getScoreQuery)['posts'];
         }
         return 0;
+    }
+
+    function refreshUserCache() {
+        if (isset($_SESSION['user'])) {
+            $db = $this->dbconnect;
+            $uid = $_SESSION['user']['uid'];
+            $setLastSeenSQL = sprintf("UPDATE users SET last_seen = %d, last_ip = '%s' WHERE uid = %d;",
+                mysqli_real_escape_string($db, time()),
+                mysqli_real_escape_string($db, $_SERVER['REMOTE_ADDR']),
+                mysqli_real_escape_string($db, $uid));
+            mysqli_query($db, $setLastSeenSQL);
+
+            $_SESSION['user'] = $this->getUserFromId($uid);
+        }
     }
 
 }

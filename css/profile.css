@@ -18,7 +18,7 @@ body {
     color: #ffffff;
 }
 
-a {
+#header a {
     text-decoration: none;
     color: #ffffff;
 }
@@ -42,6 +42,20 @@ a {
     background-color: #ffffff;
     text-align: center;
     margin: 0 auto;
-    width: 90%;
+    overflow: auto;
     height: 100%;
+    width: 90%;
+}
+
+#profile_info {
+    margin: 2% auto;
+}
+
+td {
+    text-align: center;
+}
+
+input[type="text"], input[type="email"] {
+    text-align: center;
+    width: 75%;
 }

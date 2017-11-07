@@ -4,6 +4,12 @@
         header('Location: ../index.php');
         die(0);
     }
+
+    require '../AppConfig.php';
+    require '../App.php';
+    $app = new App(AppConfig::getDatabaseConnection());
+    $app->refreshUserCache();
+
     if (isset($_GET['id'])) {
         $whitelist_ext = array('jpeg','jpg','JPEG', 'JPG','png','PNG','gif','GIF');
         $uploadDirectory = "/var/www/ahub_uploads/";
