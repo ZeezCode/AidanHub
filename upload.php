@@ -34,7 +34,7 @@
         $uploadFile = $uploadDirectory . $imageID . "." . $ext;
 
         if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
-            $app->registerImageUpload($imageID, "Title", "Description", false);
+            $app->registerImageUpload($imageID, $_POST['title'], $_POST['description'], $_POST['private'] == "on" ? true : false);
             echo "Image upload succeeded!<br />";
             echo $imageID;
         } else {
@@ -88,7 +88,6 @@
         </div>
         <script>
             function readURL(input) {
-
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function(e) {

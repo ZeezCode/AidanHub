@@ -55,7 +55,7 @@
         <div id="login_block">
             <h2 id="login_logo">Register to AidanHub</h2>
             <span id="login_error"><?php if (isset($_GET['e'])) echo AppLang::getRegisterErrorFromCode($_GET['e']); ?></span>
-            <form id="login" action="index.php" method="post">
+            <form id="login" action="register.php" method="post">
                 <table id="login_table">
                     <tr>
                         <td><input type="text" id="email" name="email" required placeholder="Email" /></td>

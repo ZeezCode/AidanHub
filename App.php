@@ -136,7 +136,7 @@ class App {
             mysqli_real_escape_string($db, $description), //Description
             mysqli_real_escape_string($db, 0), //Upvotes
             mysqli_real_escape_string($db, 0), //Downvotes
-            mysqli_real_escape_string($db, $private), //Private
+            mysqli_real_escape_string($db, $private ? 1 : 0), //Private
             mysqli_real_escape_string($db, time()), //Timestamp
             mysqli_real_escape_string($db, $_SERVER['REMOTE_ADDR'])); //IP
         mysqli_query($db, $registerImageSQL);
@@ -148,7 +148,8 @@ class App {
             mysqli_real_escape_string($db, $user['uid']));
         $getScoreQuery = mysqli_query($db, $getScoreSQL);
         if (mysqli_num_rows($getScoreQuery) > 0) {
-            return mysqli_fetch_assoc($getScoreQuery)['points'];
+            $points = mysqli_fetch_assoc($getScoreQuery)['points'];
+            return ($points == null ? 0 : $points);
         }
         return 0;
     }

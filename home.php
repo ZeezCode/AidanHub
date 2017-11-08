@@ -27,15 +27,8 @@
             <span id="header_links"><a href="home.php">Home</a> | <a href="upload.php">Upload</a> | <a href="profile.php">My Profile</a> | <a href="reset.php">Log Out</a></span>
         </div>
         <div id="content">
-            <div class="gallery">
-                <a target="_blank" href="https://i.imgur.com/hXFeHXW.jpg">
-                    <img src="https://i.imgur.com/hXFeHXW.jpg" alt="Fjords" width="300" height="200">
-                </a>
-                <div class="title">Cute doggo</div>
-            </div>
-
             <?php
-                $getLatestSQL = "SELECT * FROM images ORDER BY timestamp DESC LIMIT 15;";
+                $getLatestSQL = "SELECT * FROM images WHERE private = 0 ORDER BY timestamp DESC LIMIT 15;";
                 $getLatestQuery = mysqli_query($db, $getLatestSQL);
                 if (mysqli_num_rows($getLatestQuery) == 0) {
                     echo "<span>It seems there aren't any posts yet...</span>";
