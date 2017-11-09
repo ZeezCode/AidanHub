@@ -19,8 +19,8 @@ class Image
         return $this->img['iid'];
     }
 
-    function getUUID() {
-        return $this->img['uuid'];
+    function getUID() {
+        return $this->img['uid'];
     }
 
     function getTitle() {

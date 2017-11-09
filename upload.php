@@ -55,7 +55,7 @@
     </head>
     <body>
         <div id="header">
-            <span id="header_links"><a href="home.php">Home</a> | <a href="upload.php">Upload</a> | <a href="profile.php">My Profile</a> | <a href="reset.php">Log Out</a></span>
+            <span id="header_links"><a href="home.php">Home</a> | <a href="upload.php">Upload</a> | <a href="profile.php">My Profile</a> | <a href="my_posts.php">My Posts</a> | <a href="reset.php">Log Out</a></span>
         </div>
         <div id="content">
             <div id="upload_block">

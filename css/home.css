@@ -26,6 +26,14 @@ a {
     height: 90%;
 }
 
+#image_block {
+    background-color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+    width: 90%;
+    height: 100%;
+}
+
 div.gallery {
     margin: 5px;
     border: 1px solid #ccc;

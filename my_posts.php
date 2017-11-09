@@ -15,7 +15,7 @@
 ?>
 <html>
     <head>
-        <title>AidanHub Home</title>
+        <title>AidanHub My Posts</title>
 
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/home.css?<?php echo time(); ?>" />
@@ -29,23 +29,24 @@
         <div id="content">
             <div id="image_block">
                 <?php
-                    $getLatestSQL = "SELECT * FROM images WHERE private = 0 ORDER BY timestamp DESC LIMIT 15;";
-                    $getLatestQuery = mysqli_query($db, $getLatestSQL);
-                    if (mysqli_num_rows($getLatestQuery) == 0) {
-                        echo "<span>It seems there aren't any posts yet...</span>";
-                    } else {
-                        while ($img = mysqli_fetch_assoc($getLatestQuery)) {
-                            $image = new Image($img);
-                            ?>
-                            <div class="gallery">
-                                <a href="<?php echo $image->getPostURL(); ?>">
-                                    <img src="<?php echo $image->getDirectURL(); ?>" width="300" height="200">
-                                </a>
-                                <div class="title"><?php echo $image->getTitle(); ?></div>
-                            </div>
-                            <?php
-                        }
+                $getLatestSQL = sprintf("SELECT * FROM images WHERE uid = %d ORDER BY timestamp DESC;",
+                    mysqli_real_escape_string($db, $_SESSION['user']['uid']));
+                $getLatestQuery = mysqli_query($db, $getLatestSQL);
+                if (mysqli_num_rows($getLatestQuery) == 0) {
+                    echo "<span>You haven't made any posts yet!</span>";
+                } else {
+                    while ($img = mysqli_fetch_assoc($getLatestQuery)) {
+                        $image = new Image($img);
+                        ?>
+                        <div class="gallery">
+                            <a href="<?php echo $image->getPostURL(); ?>">
+                                <img src="<?php echo $image->getDirectURL(); ?>" width="300" height="200">
+                            </a>
+                            <div class="title"><?php echo $image->getTitle(); ?></div>
+                        </div>
+                        <?php
                     }
+                }
                 ?>
             </div>
         </div>
