@@ -32,6 +32,9 @@
             <div id="profile_block">
                 <table id="profile_info">
                     <tr>
+                        <td><?php echo htmlspecialchars($_SESSION['user']['username']); ?></td>
+                    </tr>
+                    <tr>
                         <?php
                             $url = "http://via.placeholder.com/300x150";
                             $iid = $_SESSION['user']['picture_iid'];
@@ -44,9 +47,6 @@
                     </tr>
                     <tr>
                         <td><input type="text" id="profile_picture" name="profile_picture" placeholder="AHub Image ID" maxlength="8" value="<?php echo $iid; ?>" /></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo htmlspecialchars($_SESSION['user']['username']); ?></td>
                     </tr>
                     <tr>
                         <td>
