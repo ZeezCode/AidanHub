@@ -12,6 +12,10 @@
     $db = AppConfig::getDatabaseConnection();
     $app = new App($db);
     $app->refreshUserCache();
+
+    if (!$_SESSION['user']['activated']) {
+        $app->displayRequireActivationPage();
+    }
 ?>
 <html>
     <head>

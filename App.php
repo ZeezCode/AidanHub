@@ -53,7 +53,7 @@ class App {
             $timestamp = time();
             $ip = $_SERVER['REMOTE_ADDR'];
 
-            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', NULL, NULL, '%s', %d, %d, '%s', '%s', '%s', NULL);",
+            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', NULL, NULL, '%s', %d, %d, '%s', '%s', '%s', NULL, %d);",
                 mysqli_real_escape_string($this->dbconnect, 0), //uid
                 mysqli_real_escape_string($this->dbconnect, $profile->display_name), //username
                 mysqli_real_escape_string($this->dbconnect, $profile->email), //email
@@ -61,7 +61,8 @@ class App {
                 mysqli_real_escape_string($this->dbconnect, $timestamp), //last seen
                 mysqli_real_escape_string($this->dbconnect, $ip), //reg ip
                 mysqli_real_escape_string($this->dbconnect, $ip), //last ip
-                mysqli_real_escape_string($this->dbconnect, 't')); //account source
+                mysqli_real_escape_string($this->dbconnect, 't'), //account source
+                mysqli_real_escape_string($this->dbconnect, 1)); //activated
 
             if (mysqli_query($this->dbconnect, $createUserSQL)) {
                 return $this->getUserFromEmail($profile->email);
@@ -81,7 +82,7 @@ class App {
             $salt = $this->getUniqueSalt();
             $pass = md5( md5($salt) . md5($password) );
 
-            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, '%s', '%s', '%s', NULL);",
+            $createUserSQL = sprintf("INSERT INTO users VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, '%s', '%s', '%s', NULL, %d);",
                 mysqli_real_escape_string($this->dbconnect, 0), //uid
                 mysqli_real_escape_string($this->dbconnect, $username), //username
                 mysqli_real_escape_string($this->dbconnect, $pass), //password
@@ -91,10 +92,36 @@ class App {
                 mysqli_real_escape_string($this->dbconnect, $timestamp), //last seen
                 mysqli_real_escape_string($this->dbconnect, $ip), //reg ip
                 mysqli_real_escape_string($this->dbconnect, $ip), //last ip
-                mysqli_real_escape_string($this->dbconnect, 'l')); //account source
+                mysqli_real_escape_string($this->dbconnect, 'l'), //account source
+                mysqli_real_escape_string($this->dbconnect, 0)); //activated
 
             if (mysqli_query($this->dbconnect, $createUserSQL)) {
-                return $this->getUserFromEmail($email);
+                $finalUser = $this->getUserFromEmail($email);
+                $verifyToken = $this->generateRandomString(32);
+                $createStatement = sprintf("INSERT INTO email_confirmation VALUES ('%s', %d, '%s');",
+                    mysqli_real_escape_string($this->dbconnect, $verifyToken),
+                    mysqli_real_escape_string($this->dbconnect, $finalUser['uid']),
+                    mysqli_real_escape_string($this->dbconnect, $_GET['email']));
+                mysqli_query($this->dbconnect, $createStatement);
+
+                $subject = "AidanHub - Account Confirmation";
+                $message = "
+                Hello, " . $username .  "!<br />
+                <br />
+                Thank you for registering an account on AidanHub!<br />
+                To complete the registration process, click the following link:<br />
+                <a href='http://aidanmurphey.com/hub/actions/confirm_email.php?token=$verifyToken'>Click Here to Activate your Account</a><br />
+                <br />
+                Regards,<br />
+                AidanHub - no-reply@AidanMurphey.com<br />
+                ";
+                $headers = 'From: no-reply@aidanmurphey.com' . "\r\n" .
+                    'Reply-To: no-reply@aidanmurphey.com' . "\r\n" .
+                    'Content-Type: text/html; charset=ISO-8859-1\r\n' .
+                    'X-Mailer: PHP/' . phpversion();
+                mail($email, $subject, $message, $headers);
+
+                return $finalUser;
             } else {
                 return null;
             }
@@ -177,6 +204,15 @@ class App {
 
             $_SESSION['user'] = $this->getUserFromId($uid);
         }
+    }
+
+    function displayRequireActivationPage() {
+        ?>
+        <h1>You can not access this page as your account has not yet been activated!</h1>
+        <h2>Check your inbox for the confirmation email to activate your account and gain access to all features!</h2>
+        <h3>Your email: <?php echo htmlentities($_SESSION['user']['email']); ?></h3>
+        <?php
+        die(0);
     }
 
 }

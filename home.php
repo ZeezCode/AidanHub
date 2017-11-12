@@ -17,9 +17,11 @@
     <head>
         <title>AidanHub Home</title>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/home.css?<?php echo time(); ?>" />
-
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     </head>
     <body>
@@ -49,5 +51,15 @@
                 ?>
             </div>
         </div>
+        <?php
+            if (isset($_SESSION['firstlogin'])) {
+                unset($_SESSION['firstlogin']);
+                ?>
+                <script>
+                    $.notify("Activate your account to gain access to all of the site's features!", "info");
+                </script>
+                <?php
+            }
+        ?>
     </body>
 </html>

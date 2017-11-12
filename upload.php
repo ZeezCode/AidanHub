@@ -12,6 +12,10 @@
     $app = new App(AppConfig::getDatabaseConnection());
     $app->refreshUserCache();
 
+    if (!$_SESSION['user']['activated']) {
+        $app->displayRequireActivationPage();
+    }
+
     if (isset($_FILES['image']['tmp_name'])) {
         $whitelist_type = array('image/jpeg', 'image/jpg', 'image/png','image/gif');
         $whitelist_ext = array('jpeg','jpg','JPEG', 'JPG','png','PNG','gif','GIF');

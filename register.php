@@ -36,6 +36,7 @@
         }
 
         $_SESSION['user'] = $app->registerThroughLocalSite($email, $user, $pass);
+        $_SESSION['firstlogin'] = 1;
         header('Location: home.php');
     }
 ?>
