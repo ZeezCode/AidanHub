@@ -55,6 +55,7 @@
                     <tr>
                         <td>
                             <input type="email" id="email_address" name="email_address" placeholder="Email" value="<?php echo $_SESSION['user']['email']; ?>" />
+                            <input type="hidden" id="current_profile_picture" value="<?php echo $_SESSION['user']['picture_iid'] ?>" />
                             <input type="hidden" id="current_email" value="<?php echo $_SESSION['user']['email']; ?>" />
                         </td>
                     </tr>
@@ -71,7 +72,10 @@
             </div>
         </div>
         <script>
-            $('#profile_picture').change(function() {
+            var profilePic = $('#profile_picture');
+            var emailAddress = $('#email_address');
+
+            profilePic.change(function() {
                 $.ajax({
                     type: "GET",
                     url: "actions/set_profile_image.php",
@@ -79,16 +83,17 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.status === 1) {
-                            $('#profile_picture').notify(data.error, 'error');
+                            profilePic.notify(data.error, 'error');
+                            profilePic.val($('#current_profile_picture').val());
                         } else {
-                            $('#profile_picture').notify("You've successfully changed your profile picture!", 'success');
+                            profilePic.notify("You've successfully changed your profile picture!", 'success');
                             $('#profile_picture_display').attr('src', data.direct);
                         }
                     }
                 });
             });
 
-            $('#email_address').change(function() {
+            emailAddress.change(function() {
                $.ajax({
                   type: "GET",
                   url: "actions/set_email_address.php",
@@ -96,11 +101,11 @@
                   dataType: 'json',
                   success: function(data) {
                       if (data.status === 1) {
-                          $('#email_address').notify(data.error, "error");
+                          emailAddress.notify(data.error, "error");
                       } else {
-                          $('#email_address').notify("You've submitted your new email! Check your inbox to confirm the change.", 'success');
+                          emailAddress.notify("You've submitted your new email! Check your inbox to confirm the change.", 'success');
                       }
-                      $('#email_address').val($('#current_email').val());
+                      emailAddress.val($('#current_email').val());
                   }
                });
             });
