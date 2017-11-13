@@ -1,0 +1,64 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#header {
+    background-color: #6C3295;
+    vertical-align: middle;
+    text-align: center;
+    display: table;
+    width: 100%;
+    height: 10%;
+}
+
+#header_links {
+    vertical-align:middle;
+    display:table-cell;
+    font-size: 48px;
+    color: #ffffff;
+}
+
+#header a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+#content {
+    background-color: #dfdfdf;
+    overflow: auto;
+    width: 100%;
+    height: 90%;
+}
+
+#upload_block {
+    background-color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+    height: 100%;
+    width: 90%;
+}
+
+#post_block {
+    background-color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+    overflow: auto;
+    height: 100%;
+    width: 90%;
+}
+
+#post_table {
+    margin: 3% auto;
+    width: 33%;
+}
+
+#image_container {
+    background-color: #dfdfdf;
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+}
+
+#image_container img {
+    max-width: 100%;
+}
