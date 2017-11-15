@@ -32,11 +32,23 @@ class Image
     }
 
     function getUpvotes() {
-        return $this->img['upvotes'];
+        $db = AppConfig::getDatabaseConnection();
+
+        $getDownvotesSQL = sprintf("SELECT COUNT(*) AS upvotes FROM votes WHERE iid = '%s' AND type = %d;",
+            mysqli_real_escape_string($db, $this->getIID()),
+            mysqli_real_escape_string($db, 1));
+        $getDownvotesQuery = mysqli_query($db, $getDownvotesSQL);
+        return mysqli_fetch_assoc($getDownvotesQuery)['upvotes'];
     }
 
     function getDownvotes() {
-        return $this->img['downvotes'];
+        $db = AppConfig::getDatabaseConnection();
+
+        $getDownvotesSQL = sprintf("SELECT COUNT(*) AS downvotes FROM votes WHERE iid = '%s' AND type = %d;",
+            mysqli_real_escape_string($db, $this->getIID()),
+            mysqli_real_escape_string($db, -1));
+        $getDownvotesQuery = mysqli_query($db, $getDownvotesSQL);
+        return mysqli_fetch_assoc($getDownvotesQuery)['downvotes'];
     }
 
     function isPrivate() {

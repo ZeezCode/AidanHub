@@ -52,6 +52,15 @@ body {
     width: 33%;
 }
 
+#post_title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#post_author {
+    font-size: 14px;
+}
+
 #image_container {
     background-color: #dfdfdf;
     max-height: 100%;
@@ -61,4 +70,40 @@ body {
 
 #image_container img {
     max-width: 100%;
+}
+
+img {
+    cursor: pointer;
+}
+
+*, *:before, *:after{
+    box-sizing: border-box;
+}
+
+#vote_counter_text {
+    float: left;
+}
+
+#arrow_container {
+    float: right;
+}
+
+.arrow{
+    position: relative;
+    height: 0px;
+    width: 0px;
+    padding: 0px;
+    background-color: #FFFFFF;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-bottom: 16px solid transparent;
+    cursor: pointer;
+}
+
+#arrow_up {
+    float: left;
+}
+
+#arrow_down {
+    overflow: hidden;
 }

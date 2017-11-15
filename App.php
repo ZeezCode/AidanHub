@@ -156,13 +156,11 @@ class App {
 
     function registerImageUpload($iid, $title, $description, $private) {
         $db = $this->dbconnect;
-        $registerImageSQL = sprintf("INSERT INTO images VALUES ('%s', %d, '%s', '%s', %d, %d, %d, %d, '%s');",
+        $registerImageSQL = sprintf("INSERT INTO images VALUES ('%s', %d, '%s', '%s', %d, %d, '%s');",
             mysqli_real_escape_string($db, $iid), //Image ID
             mysqli_real_escape_string($db, $_SESSION['user']['uid']), //User ID
             mysqli_real_escape_string($db, $title), //Title
             mysqli_real_escape_string($db, $description), //Description
-            mysqli_real_escape_string($db, 0), //Upvotes
-            mysqli_real_escape_string($db, 0), //Downvotes
             mysqli_real_escape_string($db, $private ? 1 : 0), //Private
             mysqli_real_escape_string($db, time()), //Timestamp
             mysqli_real_escape_string($db, $_SERVER['REMOTE_ADDR'])); //IP
@@ -213,6 +211,20 @@ class App {
         <h3>Your email: <?php echo htmlentities($_SESSION['user']['email']); ?></h3>
         <?php
         die(0);
+    }
+
+    function getUserVoteOnImage($iid) {
+        $db = $this->dbconnect;
+        $vote = 0;
+
+        $getVoteSQL = sprintf("SELECT type FROM votes WHERE iid = '%s' AND uid = %d;",
+            mysqli_real_escape_string($db, $iid),
+            mysqli_real_escape_string($db, $_SESSION['user']['uid']));
+        $getVoteQuery = mysqli_query($db, $getVoteSQL);
+        if (mysqli_num_rows($getVoteQuery) > 0) {
+            $vote = mysqli_fetch_assoc($getVoteQuery)['type'];
+        }
+        return $vote;
     }
 
 }
