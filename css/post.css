@@ -93,11 +93,11 @@ img {
     height: 0px;
     width: 0px;
     padding: 0px;
+    cursor: pointer;
     background-color: #FFFFFF;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
     border-bottom: 16px solid transparent;
-    cursor: pointer;
 }
 
 #arrow_up {
@@ -105,5 +105,17 @@ img {
 }
 
 #arrow_down {
+    float: right;
     overflow: hidden;
+}
+
+#post_description {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+}
+
+#post_description:focus {
+    outline: none;
 }

@@ -63,13 +63,15 @@
                                 $downStyle = "border-top: 16px solid #DB3535";
                             }
                         ?>
-                        <td align="right">
+                        <td>
                             <span id="vote_counter_text">Points: <span id="vote_count"><?php echo $img->getUpvotes() - $img->getDownvotes(); ?></span></span>
                             <div id="arrow_container"><div class="arrow" id="arrow_up" style="<?php echo $upStyle; ?>"></div><div class="arrow" id="arrow_down" style="<?php echo $downStyle; ?>"></div></div>
                         </td>
                     </tr>
                     <tr>
-                        <td><?php echo $img->getDescription(); ?></td>
+                        <td>
+                            <textarea id="post_description" readonly rows="<?php echo (substr_count($img->getDescription(), "\n") + 1); ?>" ><?php echo htmlentities($img->getDescription()); ?></textarea>
+                        </td>
                     </tr>
                 </table>
             </div>
