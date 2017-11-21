@@ -1,0 +1,66 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #dfdfdf;
+}
+
+#forgot_block {
+    background-color: #ffffff;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    width: 25%;
+    height: 45%;
+    border-radius: 10%;
+    border: 2px solid #6C3295;
+}
+
+#logo {
+    font-size: 32px;
+}
+
+#forgot {
+    width: 75%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+#forgot_table {
+    height: 40%;
+    width: 100%;
+    margin: 15% auto;
+}
+
+td, tr {
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+input[type="email"], input[type="password"] {
+    width: 95%;
+    -webkit-appearance: button;
+    height: 75%;
+    text-indent: 10px;
+
+    border: none;
+    border-bottom: 2px solid #6C3295;
+}
+
+input[type="email"]:focus, input[type="password"]:focus {
+    background-color: #8a7995;
+}
+
+input:focus, input:focus::placeholder {
+    outline: none;
+    color: white;
+}
+
+input[type="submit"] {
+    height: 30px;
+    color: #6C3295;
+    border: 1px solid #320358;
+    background-color: #ffffff;
+}

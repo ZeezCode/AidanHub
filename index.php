@@ -81,7 +81,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/normalize.css" >
-        <link rel="stylesheet" type="text/css" href="css/index.css?<?php echo date('l jS \of F Y h:i:s A'); ?>" >
+        <link rel="stylesheet" type="text/css" href="css/index.css?<?php echo time(); ?>" >
 
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <style>
@@ -91,11 +91,6 @@
         </style>
     </head>
     <body>
-        <script>
-            $(".login_button").click(function() {
-                window.location.href = "index.php?" + $(this).attr('id');
-            });
-        </script>
         <div id="login_block">
             <h2 id="login_logo">AidanHub</h2>
             <span id="login_error"><?php if (isset($_GET['e'])) echo AppLang::getLoginErrorFromCode($_GET['e']); ?></span>
@@ -111,7 +106,7 @@
                         <td><input type="submit" value="Log In" /> or <img class="login_button" id="tlogin" src="https://i.imgur.com/vL4sjXo.png" /></td>
                     </tr>
                     <tr>
-                        <td><span id="login_bottom_links"><a href="#">Forgot Password</a> | <a href="register.php">Register</a></span></td>
+                        <td><span id="login_bottom_links"><a href="forgot_pass.php">Forgot Password</a> | <a href="register.php">Register</a></span></td>
                     </tr>
                 </table>
             </form>

@@ -47,7 +47,7 @@
                         <br />
                         Regards,<br />
                         AidanHub - no-reply@AidanMurphey.com<br />
-                    ";
+                        ";
                         $headers = 'From: no-reply@aidanmurphey.com' . "\r\n" .
                             'Reply-To: no-reply@aidanmurphey.com' . "\r\n" .
                             'Content-Type: text/html; charset=ISO-8859-1\r\n' .
