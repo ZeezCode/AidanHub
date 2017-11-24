@@ -169,12 +169,20 @@ class App {
 
     function getUserPoints($user) {
         $db = $this->dbconnect;
-        $getScoreSQL = sprintf("SELECT SUM(upvotes) AS points FROM images WHERE uid = %d;",
+        $getPostIdsSQL = sprintf("SELECT iid FROM images WHERE uid = %d;",
             mysqli_real_escape_string($db, $user['uid']));
-        $getScoreQuery = mysqli_query($db, $getScoreSQL);
-        if (mysqli_num_rows($getScoreQuery) > 0) {
-            $points = mysqli_fetch_assoc($getScoreQuery)['points'];
-            return ($points == null ? 0 : $points);
+        $getPostIdsQuery = mysqli_query($db, $getPostIdsSQL);
+        if (mysqli_num_rows($getPostIdsQuery) > 0) {
+            $list = array();
+            while ($image = mysqli_fetch_assoc($getPostIdsQuery)) {
+                array_push($list, $image['iid']);
+            }
+            array_walk($list, function(&$elem, $key) {
+               $elem = mysqli_real_escape_string(AppConfig::getDatabaseConnection(), $elem); //won't let me use $db here
+            });
+            $getPointsSQL = 'SELECT SUM(type) AS points FROM votes WHERE iid IN ("' . implode('", "', $list) . '");';
+            $getPointsQuery = mysqli_query($db, $getPointsSQL);
+            return mysqli_fetch_assoc($getPointsQuery)['points'];
         }
         return 0;
     }
