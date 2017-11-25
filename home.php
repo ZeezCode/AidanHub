@@ -41,8 +41,14 @@
                             ?>
                             <div class="gallery">
                                 <a href="<?php echo $image->getPostURL(); ?>">
-                                    <img src="<?php echo $image->getDirectURL(); ?>" width="300" height="200">
+                                    <img src="<?php echo $image->getDirectURL(); ?>" width="300" height="200" class="uploaded_image">
+                                    <?php
+                                        $user = $app->getUserFromId($image->getUID());
+                                        $profilePicId = $user['picture_iid'];
+                                        $direct = "http://aidanmurphey.com/hub/img?id=" . $profilePicId;
+                                    ?>
                                 </a>
+                                <img class="uploaded_profile_pic" src="<?php echo $direct; ?>">
                                 <div class="title"><?php echo $image->getTitle(); ?></div>
                             </div>
                             <?php

@@ -39,13 +39,14 @@ div.gallery {
     border: 1px solid #ccc;
     float: left;
     width: 180px;
+    position: relative;
 }
 
 div.gallery:hover {
     border: 1px solid #777;
 }
 
-div.gallery img {
+div.gallery .uploaded_image {
     width: 100%;
     height: auto;
 }
@@ -53,4 +54,11 @@ div.gallery img {
 div.title {
     padding: 15px;
     text-align: center;
+}
+
+.uploaded_profile_pic {
+    position: absolute;
+    width: 25px;
+    top: 0;
+    right: 0;
 }
