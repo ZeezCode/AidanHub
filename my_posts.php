@@ -22,7 +22,7 @@
         <title>AidanHub My Posts</title>
 
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <link rel="stylesheet" type="text/css" href="css/home.css?<?php echo time(); ?>" />
+        <link rel="stylesheet" type="text/css" href="css/my.css?<?php echo time(); ?>" />
 
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     </head>
